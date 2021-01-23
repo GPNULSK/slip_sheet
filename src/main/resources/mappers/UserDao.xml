@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mappers.UserDao">
+  <resultMap id="BaseResultMap" type="com.example.domain.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="passport" jdbcType="VARCHAR" property="passport" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="test" jdbcType="TINYINT" property="test" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.domain.User">
+    <result column="token" jdbcType="VARBINARY" property="token" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, passport, create_time, test
+  </sql>
+  <sql id="Blob_Column_List">
+    token
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.domain.User" useGeneratedKeys="true">
+    insert into t_user (username, passport, create_time, 
+      test, token)
+    values (#{username,jdbcType=VARCHAR}, #{passport,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
+      #{test,jdbcType=TINYINT}, #{token,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.domain.User" useGeneratedKeys="true">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="passport != null">
+        passport,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="test != null">
+        test,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="passport != null">
+        #{passport,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="test != null">
+        #{test,jdbcType=TINYINT},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.domain.User">
+    update t_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="passport != null">
+        passport = #{passport,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="test != null">
+        test = #{test,jdbcType=TINYINT},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.domain.User">
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      passport = #{passport,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      test = #{test,jdbcType=TINYINT},
+      token = #{token,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.domain.User">
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      passport = #{passport,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      test = #{test,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

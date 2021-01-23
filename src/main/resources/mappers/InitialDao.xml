@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mappers.InitialDao">
+  <resultMap id="BaseResultMap" type="com.example.domain.Initial">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="provider_code" jdbcType="VARCHAR" property="providerCode" />
+    <result column="provider_name" jdbcType="VARCHAR" property="providerName" />
+    <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
+    <result column="material_code" jdbcType="VARCHAR" property="materialCode" />
+    <result column="material_name" jdbcType="VARCHAR" property="materialName" />
+    <result column="material_grade" jdbcType="VARCHAR" property="materialGrade" />
+    <result column="material_type" jdbcType="VARCHAR" property="materialType" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="issue_date" jdbcType="TIMESTAMP" property="issueDate" />
+    <result column="arrival_date" jdbcType="TIMESTAMP" property="arrivalDate" />
+    <result column="manufacture_date" jdbcType="TIMESTAMP" property="manufactureDate" />
+    <result column="recorded_date" jdbcType="TIMESTAMP" property="recordedDate" />
+    <result column="is_return" jdbcType="VARCHAR" property="isReturn" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="owner_factory" jdbcType="VARCHAR" property="ownerFactory" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="charger" jdbcType="VARCHAR" property="charger" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="test_return" jdbcType="BOOLEAN" property="testReturn"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, provider_code, provider_name, batch_code, material_code,material_name, material_grade, material_type,
+    account, issue_date, arrival_date, manufacture_date, recorded_date, is_return, `status`, 
+    warehouse_name, `location`, owner_factory, `operator`, charger, remark
+  </sql>
+
+
+  <insert id="record" keyColumn="id" keyProperty="id" parameterType="com.example.domain.Initial" useGeneratedKeys="true">
+    insert into t_initial (provider_code, provider_name, batch_code, 
+      material_code, material_name, material_grade, material_type,
+      account, issue_date, arrival_date, 
+      manufacture_date, recorded_date, is_return, 
+      `status`, warehouse_name, `location`, 
+      owner_factory, `operator`, charger, 
+      remark)
+    values (#{providerCode,jdbcType=VARCHAR}, #{providerName,jdbcType=VARCHAR}, #{batchCode,jdbcType=VARCHAR}, 
+      #{materialCode,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, #{materialGrade,jdbcType=VARCHAR}, #{materialType,jdbcType=VARCHAR},
+      #{account,jdbcType=VARCHAR}, #{issueDate,jdbcType=TIMESTAMP}, #{arrivalDate,jdbcType=TIMESTAMP}, 
+      #{manufactureDate,jdbcType=TIMESTAMP}, #{recordedDate,jdbcType=TIMESTAMP}, #{isReturn,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR}, #{warehouseName,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{ownerFactory,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{charger,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+        id,provider_code,provider_name,batch_code,
+        material_code,material_name,material_grade,batch_code,status,arrival_date,operator,is_return,test_return
+    from t_initial
+  </select>
+
+  <select id="search" parameterType="com.example.domain.Initial" resultMap="BaseResultMap">
+    select
+         id,provider_code,provider_name,batch_code,
+         material_code,material_name,material_grade,batch_code,status,arrival_date,operator,is_return
+    from
+        t_initial
+    where
+        provider_code like concat('%',#{providerCode},'%') and material_code like concat('%',#{materialCode},'%')
+        and material_grade like concat('%',#{materialGrade},'%') and batch_code like concat('%',#{batchCode},'%')
+    order by arrival_date desc
+  </select>
+
+  <update id="changeStatus" parameterType="com.example.domain.Initial">
+    update t_initial set test_return=#{testReturn} where id=#{id}
+  </update>
+
+
+
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.example.domain.Initial">-->
+<!--    update t_initial-->
+<!--    <set>-->
+<!--      <if test="providerCode != null">-->
+<!--        provider_code = #{providerCode,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="providerName != null">-->
+<!--        provider_name = #{providerName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="batchCode != null">-->
+<!--        batch_code = #{batchCode,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="materialCode != null">-->
+<!--        material_code = #{materialCode,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="materialGrade != null">-->
+<!--        material_grade = #{materialGrade,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="materialType != null">-->
+<!--        material_type = #{materialType,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="account != null">-->
+<!--        account = #{account,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="issueDate != null">-->
+<!--        issue_date = #{issueDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="arrivalDate != null">-->
+<!--        arrival_date = #{arrivalDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="manufactureDate != null">-->
+<!--        manufacture_date = #{manufactureDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="recordedDate != null">-->
+<!--        recorded_date = #{recordedDate,jdbcType=TIMESTAMP},-->
+<!--      </if>-->
+<!--      <if test="isReturn != null">-->
+<!--        is_return = #{isReturn,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="status != null">-->
+<!--        `status` = #{status,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="warehouseName != null">-->
+<!--        warehouse_name = #{warehouseName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="location != null">-->
+<!--        `location` = #{location,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="ownerFactory != null">-->
+<!--        owner_factory = #{ownerFactory,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="operator != null">-->
+<!--        `operator` = #{operator,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="charger != null">-->
+<!--        charger = #{charger,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="remark != null">-->
+<!--        remark = #{remark,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.example.domain.Initial">-->
+<!--    update t_initial-->
+<!--    set provider_code = #{providerCode,jdbcType=VARCHAR},-->
+<!--      provider_name = #{providerName,jdbcType=VARCHAR},-->
+<!--      batch_code = #{batchCode,jdbcType=VARCHAR},-->
+<!--      material_code = #{materialCode,jdbcType=VARCHAR},-->
+<!--      material_grade = #{materialGrade,jdbcType=VARCHAR},-->
+<!--      material_type = #{materialType,jdbcType=VARCHAR},-->
+<!--      account = #{account,jdbcType=VARCHAR},-->
+<!--      issue_date = #{issueDate,jdbcType=TIMESTAMP},-->
+<!--      arrival_date = #{arrivalDate,jdbcType=TIMESTAMP},-->
+<!--      manufacture_date = #{manufactureDate,jdbcType=TIMESTAMP},-->
+<!--      recorded_date = #{recordedDate,jdbcType=TIMESTAMP},-->
+<!--      is_return = #{isReturn,jdbcType=INTEGER},-->
+<!--      `status` = #{status,jdbcType=VARCHAR},-->
+<!--      warehouse_name = #{warehouseName,jdbcType=VARCHAR},-->
+<!--      `location` = #{location,jdbcType=VARCHAR},-->
+<!--      owner_factory = #{ownerFactory,jdbcType=VARCHAR},-->
+<!--      `operator` = #{operator,jdbcType=VARCHAR},-->
+<!--      charger = #{charger,jdbcType=VARCHAR},-->
+<!--      remark = #{remark,jdbcType=VARCHAR}-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
+</mapper>
