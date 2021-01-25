@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.domain.Initial;
+import com.example.utils.PageUtils;
 
 import java.util.List;
 
@@ -10,11 +11,14 @@ public interface InitService {
     int record(Initial initial);
 
     //查询所有
-    List<Initial> findAll();
+    List<Initial> findAll(PageUtils pageUtils);
 
     //模糊查询
     List<Initial> search(Initial initial);
 
     int changeStatus(Initial initial);
 
+    int delete(Initial initial);
+
+    int totalAccount();
 }

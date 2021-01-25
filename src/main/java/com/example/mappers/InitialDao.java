@@ -1,6 +1,7 @@
 package com.example.mappers;
 
 import com.example.domain.Initial;
+import com.example.utils.PageUtils;
 import com.sun.org.apache.xml.internal.security.Init;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,10 +14,14 @@ public interface InitialDao {
     void record(Initial initial);
 
     //查询所有
-    List<Initial> findAll();
+    List<Initial> findAll(PageUtils pageUtils);
 
     //模糊查询
     List<Initial> search(Initial initial);
 
     void changeStatus(Initial initial);
+
+    void delete(Initial initial);
+
+    int totalAccount();
 }

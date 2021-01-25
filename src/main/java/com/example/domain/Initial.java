@@ -130,5 +130,7 @@ public class Initial implements Serializable {
 
     private boolean testReturn;
 
+    private Integer isShow;
+
 
 }

@@ -24,11 +24,12 @@
     <result column="charger" jdbcType="VARCHAR" property="charger" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="test_return" jdbcType="BOOLEAN" property="testReturn"/>
+    <result column="is_show" jdbcType="INTEGER" property="isShow"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, provider_code, provider_name, batch_code, material_code,material_name, material_grade, material_type,
     account, issue_date, arrival_date, manufacture_date, recorded_date, is_return, `status`, 
-    warehouse_name, `location`, owner_factory, `operator`, charger, remark
+    warehouse_name, `location`, owner_factory, `operator`, charger, remark,is_show
   </sql>
 
 
@@ -49,11 +50,17 @@
       #{remark,jdbcType=VARCHAR})
   </insert>
 
-  <select id="findAll" resultMap="BaseResultMap">
+  <select id="findAll" parameterType="com.example.utils.PageUtils" resultMap="BaseResultMap">
     select
         id,provider_code,provider_name,batch_code,
         material_code,material_name,material_grade,batch_code,status,arrival_date,operator,is_return,test_return
-    from t_initial
+    from
+        t_initial
+    where
+        is_show=#{isShow}
+    limit
+        #{start},#{pageSize}
+
   </select>
 
   <select id="search" parameterType="com.example.domain.Initial" resultMap="BaseResultMap">
@@ -71,6 +78,14 @@
   <update id="changeStatus" parameterType="com.example.domain.Initial">
     update t_initial set test_return=#{testReturn} where id=#{id}
   </update>
+
+  <update id="delete" parameterType="com.example.domain.Initial">
+    update t_initial set is_show = #{isShow} where id=#{id}
+  </update>
+
+  <select id="totalAccount" resultType="integer">
+    select count(id) from t_initial
+  </select>
 
 
 

@@ -3,6 +3,7 @@ package com.example.service.impl;
 import com.example.domain.Initial;
 import com.example.mappers.InitialDao;
 import com.example.service.InitService;
+import com.example.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,9 @@ public class InitServiceImpl implements InitService {
     }
 
     @Override
-    public List<Initial> findAll() {
-        return initialDao.findAll();
+    public List<Initial> findAll(PageUtils pageUtils) {
+        pageUtils.setStart((pageUtils.getCurPage()-1)*pageUtils.getPageSize());
+        return initialDao.findAll(pageUtils);
     }
 
     @Override
@@ -49,5 +51,23 @@ public class InitServiceImpl implements InitService {
             e.printStackTrace();
         }
         return i;
+    }
+
+    @Override
+    public int delete(Initial initial) {
+        int i = 0;
+        try {
+            initialDao.delete(initial);
+            i = 1;
+        } catch (Exception e) {
+            i = -1;
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public int totalAccount() {
+        return initialDao.totalAccount();
     }
 }
