@@ -155,6 +155,7 @@ public class InitController {
             initialExport.setArrivalDate(list.getArrivalDate());
             initialExport.setStatus(list.getStatus());
             initialExport.setOperator(list.getOperator());
+
             if (list.isTestReturn()){
                 initialExport.setTestReturn("是");
             }else {
