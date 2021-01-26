@@ -23,5 +23,7 @@ public interface InitialDao {
 
     void delete(Initial initial);
 
-    int totalAccount();
+    int totalAccount(int i);
+
+    void saveByExcel(List<Initial> initialList);
 }

@@ -20,5 +20,7 @@ public interface InitService {
 
     int delete(Initial initial);
 
-    int totalAccount();
+    int totalAccount(int i);
+
+    int saveByExcel(List<Initial> initialList);
 }

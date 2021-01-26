@@ -67,7 +67,20 @@ public class InitServiceImpl implements InitService {
     }
 
     @Override
-    public int totalAccount() {
-        return initialDao.totalAccount();
+    public int totalAccount(int i) {
+        return initialDao.totalAccount(1);
+    }
+
+    @Override
+    public int saveByExcel(List<Initial> initialList) {
+        int i = 0;
+        try {
+            initialDao.saveByExcel(initialList);
+            i = 1;
+        } catch (Exception e) {
+            i = -1;
+            e.printStackTrace();
+        }
+        return i;
     }
 }

@@ -70,7 +70,7 @@ public class Initial implements Serializable {
     private Date issueDate;
 
     /**
-     * 到达时间
+     * 接收时间
      */
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -128,6 +128,9 @@ public class Initial implements Serializable {
      */
     private String remark;
 
+    /**
+     * 是否退货，这个变量正在使用，上面的弃用
+     */
     private boolean testReturn;
 
     private Integer isShow;

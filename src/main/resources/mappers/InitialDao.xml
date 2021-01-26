@@ -58,9 +58,9 @@
         t_initial
     where
         is_show=#{isShow}
-    limit
+    order by arrival_date desc
+     limit
         #{start},#{pageSize}
-
   </select>
 
   <select id="search" parameterType="com.example.domain.Initial" resultMap="BaseResultMap">
@@ -84,10 +84,18 @@
   </update>
 
   <select id="totalAccount" resultType="integer">
-    select count(id) from t_initial
+    select count(id) from t_initial where is_show = #{i}
   </select>
 
-
+<select id="saveByExcel" parameterType="java.util.List">
+  insert into t_initial (provider_code,provider_name,batch_code,material_code,material_name,material_grade,status,arrival_date,operator,test_return,is_show) values
+  <foreach collection="list" index="index" item="item" separator=",">
+    (
+    #{item.providerCode},#{item.providerName},#{item.batchCode},#{item.materialCode},#{item.materialName},
+    #{item.materialGrade},#{item.status},#{item.arrivalDate},#{item.operator},#{item.testReturn},#{item.isShow}
+    )
+  </foreach>
+</select>
 
 <!--  <update id="updateByPrimaryKeySelective" parameterType="com.example.domain.Initial">-->
 <!--    update t_initial-->
