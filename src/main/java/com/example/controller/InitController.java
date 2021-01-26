@@ -154,6 +154,7 @@ public class InitController {
             initialExport.setMaterialGrade(list.getMaterialGrade());
             initialExport.setArrivalDate(list.getArrivalDate());
             initialExport.setStatus(list.getStatus());
+
             initialExport.setOperator(list.getOperator());
 
             if (list.isTestReturn()){
