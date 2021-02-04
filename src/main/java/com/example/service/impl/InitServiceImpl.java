@@ -4,6 +4,7 @@ import com.example.domain.Initial;
 import com.example.mappers.InitialDao;
 import com.example.service.InitService;
 import com.example.utils.PageUtils;
+import com.example.utils.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,22 +37,12 @@ public class InitServiceImpl implements InitService {
     }
 
     @Override
-    public List<Initial> search(Initial initial) {
-        return initialDao.search(initial);
+    public List<Initial> search(SearchUtil searchUtil) {
+        searchUtil.setPageStart((searchUtil.getCurPage()-1)*searchUtil.getPageSize());
+        return initialDao.search(searchUtil);
     }
 
-    @Override
-    public int changeStatus(Initial initial) {
-        int i=0;
-        try {
-            initialDao.changeStatus(initial);
-            i=1;
-        } catch (Exception e) {
-            i=-1;
-            e.printStackTrace();
-        }
-        return i;
-    }
+
 
     @Override
     public int delete(Initial initial) {
@@ -82,5 +73,28 @@ public class InitServiceImpl implements InitService {
             e.printStackTrace();
         }
         return i;
+    }
+
+    @Override
+    public int searchingAccount(SearchUtil searchUtil) {
+        return initialDao.searchingAccount(searchUtil);
+    }
+
+    @Override
+    public String returnOrder(Initial initial) {
+
+        String flag = "false";
+        try {
+            initialDao.returnOrder(initial);
+            flag = "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    @Override
+    public Initial findById(int id) {
+        return initialDao.findById(id);
     }
 }

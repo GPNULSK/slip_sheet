@@ -1,98 +1,53 @@
 package com.example.controller;
 
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.net.URLDecoder;
 
 @CrossOrigin
 @RestController
 public class ExcelController {
 
+    @ApiIgnore
+    @RequestMapping(value = "/downloadExcel")
+    @ResponseBody
+    public void downloadExcel(HttpServletResponse res, HttpServletRequest req, String name) throws Exception {
+        String fileName = "物料导入模板.xls";
+        ServletOutputStream out;
+        res.setContentType("multipart/form-data");
+        res.setCharacterEncoding("UTF-8");
+        res.setContentType("text/html");
+        String filePath = getClass().getResource("/excel/" + fileName).getPath();
+        String userAgent = req.getHeader("User-Agent");
+        System.out.println(userAgent);
+        if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
+        fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
+        } else {
+        // 非IE浏览器的处理：
+               fileName = new String((fileName).getBytes("UTF-8"), "ISO-8859-1");
+        }
+        filePath = URLDecoder.decode(filePath, "UTF-8");
+        res.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
+        FileInputStream inputStream = new FileInputStream(filePath);
+        out = res.getOutputStream();
+        int b = 0;
+        byte[] buffer = new byte[1024];
+        while ((b = inputStream.read(buffer)) != -1) {
+        // 4.写到输出流(out)中
+        out.write(buffer, 0, b);
+        }
+        inputStream.close();
 
+        if (out != null) {
+        out.flush();
+        out.close();
+        }
 
-   // @RequestMapping("/uploadExcel")
-//    //通过对单元格遍历的形式来获取信息 ，这里要判断单元格的类型才可以取出值
-//    public  boolean readTable(@RequestParam("excelFile") MultipartFile file) throws Exception {
-//
-//        int i = 0;
-//        int m = 0;
-//        List<User1> list = new ArrayList<>();
-//        User1 user1 = new User1();
-//        Initial initial;
-//        List<Initial> initialList = new ArrayList<>();
-//        InputStream inputStream = file.getInputStream();
-//        HSSFWorkbook wb = new HSSFWorkbook(inputStream);
-//        HSSFSheet sheet = wb.getSheetAt(0);
-//        for (Iterator ite = sheet.rowIterator(); ite.hasNext(); ) {
-//            HSSFRow row = (HSSFRow) ite.next();
-//            System.out.println();
-//            m++;
-//            i = 0;
-//            initial = new Initial();
-//            for (Iterator itet = row.cellIterator(); itet.hasNext(); ) {
-//                i++;
-//                HSSFCell cell = (HSSFCell) itet.next();
-//                switch (cell.getCellType()) {
-//                    case HSSFCell.CELL_TYPE_BOOLEAN:
-//                        break;
-//                    case HSSFCell.CELL_TYPE_NUMERIC:
-//                        //先看是否是日期格式
-//                        if (HSSFDateUtil.isCellDateFormatted(cell)) {
-//                            //读取日期格式
-//                            initial.setArrivalDate(cell.getDateCellValue());
-//                        } else {
-//                            //读取数字
-//                            System.out.println("读取了数字，注意！");
-//                        }
-//                        break;
-//                    case HSSFCell.CELL_TYPE_FORMULA:
-//                        //读取公式
-//                        System.out.println("读取了公式，注意!");
-//                        break;
-//                    case HSSFCell.CELL_TYPE_STRING:
-//                        //读取String
-//                        System.out.print(cell.getRichStringCellValue().toString() + " ");
-//                        if (m !=1){
-//                            if (i == 1){
-//                               initial.setProviderCode(cell.getRichStringCellValue().toString());
-//                            }else if (i == 2){
-//                                initial.setProviderName(cell.getRichStringCellValue().toString());
-//                            }else if (i == 3){
-//                                initial.setBatchCode(cell.getRichStringCellValue().toString());
-//                            }else if(i == 4){
-//                                System.out.println(cell.getRichStringCellValue().toString());
-//                               initial.setMaterialCode(cell.getRichStringCellValue().toString());
-//                            }else if (i == 5){
-//                                initial.setMaterialName(cell.getRichStringCellValue().toString());
-//                            }else if (i == 6){
-//                                initial.setMaterialGrade(cell.getRichStringCellValue().toString());
-//                            }else if (i == 7){
-//                                initial.setStatus(cell.getRichStringCellValue().toString());
-//                            }else if (i == 8){
-//                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                                Date date =  simpleDateFormat.parse(cell.getRichStringCellValue().toString());
-//                                initial.setArrivalDate(date);
-//                            }else if (i == 9){
-//                                initial.setOperator(cell.getRichStringCellValue().toString());
-//                            }else if (i == 10){
-//                                String isReturn = cell.getRichStringCellValue().toString();
-//                                if ("是".equals(isReturn)){
-//                                    initial.setTestReturn(true);
-//                                }
-//                                if ("否".equals(isReturn)){
-//                                    initial.setTestReturn(false);
-//                                }
-//                                initial.setIsShow(1);
-//                                initialList.add(initial);
-//                            }
-//                        }
-//                        break;
-//                }
-//            }
-//        }
-//        int i1 = initService.saveByExcel(initialList);
-//        System.out.println(i1);
-//        return true;
-//    }
-
-
+    }
 
 }

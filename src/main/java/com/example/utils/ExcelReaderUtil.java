@@ -32,7 +32,6 @@ public class ExcelReaderUtil {
         HSSFSheet sheet = wb.getSheetAt(0);
         for (Iterator ite = sheet.rowIterator(); ite.hasNext(); ) {
             HSSFRow row = (HSSFRow) ite.next();
-            System.out.println();
             m++;
             i = 0;
             initial = new Initial();
@@ -66,7 +65,6 @@ public class ExcelReaderUtil {
                             }else if (i == 3){
                                 initial.setBatchCode(cell.getRichStringCellValue().toString());
                             }else if(i == 4){
-                                System.out.println(cell.getRichStringCellValue().toString());
                                 initial.setMaterialCode(cell.getRichStringCellValue().toString());
                             }else if (i == 5){
                                 initial.setMaterialName(cell.getRichStringCellValue().toString());
@@ -82,13 +80,7 @@ public class ExcelReaderUtil {
                                 initial.setOperator(cell.getRichStringCellValue().toString());
                             }else if (i == 10){
                                 String isReturn = cell.getRichStringCellValue().toString();
-                                if ("是".equals(isReturn)){
-                                    initial.setTestReturn(true);
-                                }
-                                if ("否".equals(isReturn)){
-                                    initial.setTestReturn(false);
-                                }
-                                initial.setIsShow(1);
+
                                 initialList.add(initial);
                             }
                         }

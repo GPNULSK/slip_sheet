@@ -4,24 +4,24 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.expression.spel.ast.BooleanLiteral;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * t_initial 原材料库
- * @author  114200563
+ * t_initial
+ * @author 
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Initial implements Serializable {
     /**
      * 唯一主键
      */
     private Integer id;
+
+    /**
+     * 逻辑外键
+     */
+    private String orderId;
 
     /**
      * 厂家代号
@@ -61,37 +61,34 @@ public class Initial implements Serializable {
     /**
      * 包装数量
      */
-    private String account;
+    private Integer account;
+
+    /**
+     * 退货数量
+     */
+    private Integer returnAccount;
 
     /**
      * 发货时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm")
     private Date issueDate;
 
     /**
-     * 接收时间
+     * 到达时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd ",timezone = "GMT+8")
     private Date arrivalDate;
 
     /**
      * 生产日期
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm")
     private Date manufactureDate;
 
     /**
      * 录入时间
      */
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordedDate;
-
-    /**
-     * 是否需要退货 整数1需要  0不需要
-     */
-    private String isReturn;
 
     /**
      * 货物状态
@@ -124,16 +121,19 @@ public class Initial implements Serializable {
     private String charger;
 
     /**
+     * 是否需要退货
+     */
+    private Byte isReturn;
+
+    /**
      * 备注
      */
     private String remark;
 
     /**
-     * 是否退货，这个变量正在使用，上面的弃用
+     * 操作记录
      */
-    private boolean testReturn;
-
-    private Integer isShow;
+    private String operationHistory;
 
 
 }

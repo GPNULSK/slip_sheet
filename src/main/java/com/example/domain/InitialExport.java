@@ -6,6 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+/**
+ * 导出到Excel的实体类
+ */
 @Data
 public class InitialExport {
 
